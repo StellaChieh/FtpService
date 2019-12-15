@@ -1,0 +1,41 @@
+<folders>
+	<!-- 198 -->
+	<folder>
+		<sourceFolder>testing1</sourceFolder>
+		<ftpIp>174.54.66.32</ftpIp>
+		<ftpTargetFolder>/ftpTest/中文資料夾</ftpTargetFolder>
+		<ftpUsername></ftpUsername>
+		<ftpPassword></ftpPassword>
+		<ftpOtherParameter></ftpOtherParameter>
+		<fileNameChanges>
+			<file>
+				<sourceFilename>day30.xml</sourceFilename>
+				<targetFilename>day30.xml</targetFilename>
+			</file>
+			<file>
+				<sourceFilename>dy_Report.xml</sourceFilename>
+				<targetFilename>dy_Report_${date:now:yyyy-MM-dd}_aws.xml</targetFilename>
+			</file>
+			<file>
+				<sourceFilename>mn_Report.xml</sourceFilename>
+				<targetFilename>mn_Report_${date:now:MMdd}001_cwbrain.xml</targetFilename>
+			</file>
+			<file>
+				<sourceFilename>test.pdf</sourceFilename>
+				<targetFilename>test_${date:now:yyyy-MM-dd}.pdf</targetFilename>
+			</file>
+			
+		</fileNameChanges>
+	</folder>
+	<!-- 196 -->
+	<folder>
+		<sourceFolder>testing2</sourceFolder>
+		<ftpIp>188.0.11.34</ftpIp>
+		<ftpTargetFolder>/197CMT_ChangeNotify/TokenXml/中文資料夾</ftpTargetFolder>
+		<ftpUsername></ftpUsername>
+		<ftpPassword></ftpPassword>
+		<ftpOtherParameter></ftpOtherParameter>
+		<fileNameChanges></fileNameChanges>
+	</folder>
+	
+</folders>

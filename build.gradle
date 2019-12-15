@@ -1,0 +1,95 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.1.RELEASE")
+    }
+}
+
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'org.springframework.boot' version '2.1.1.RELEASE'
+}
+
+def jarName = 'FtpService'
+def versionS = '1.0'
+def jarWholeName =jarName + "-" + versionS + ".jar"
+def finalTarName ='FtpService.tar.gz'
+def runFilename = 'RunFtpService.sh'
+
+bootJar {
+    baseName = "${jarName}"
+    version =  "${versionS}"
+    mainClassName = 'com.iisi.cmt.ftpService.MyApplication'
+}
+
+
+task copyToArchive(type : Copy){		
+	into "${buildDir}/toArchive"
+	
+	from ("${buildDir}/libs"){
+		include "${jarWholeName}"
+	}
+	
+	from ("${rootDir}"){
+		include 'config/**'
+	}
+	
+	from ("${rootDir}/linuxInstall"){
+		include "${runFilename}"
+	}
+}
+
+task buildTar(type: Tar){
+	from "${buildDir}/toArchive"
+	archiveName = "${finalTarName}"
+	destinationDir = file("${buildDir}/tar")
+	extension 'tar'
+	compression=Compression.GZIP
+}
+
+task myPackage {
+	dependsOn 'clean'
+	dependsOn 'bootJar'
+	dependsOn 'copyToArchive'
+	dependsOn 'buildTar'
+	tasks.findByName('bootJar').mustRunAfter 'clean'
+	tasks.findByName('copyToArchive').mustRunAfter 'bootJar'
+	tasks.findByName('buildTar').mustRunAfter 'copyToArchive'
+	
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+
+dependencies {
+
+	// dao
+	compile('mysql:mysql-connector-java:5.1.47')
+	compile('org.springframework.boot:spring-boot-starter-jdbc:2.1.1.RELEASE')
+	
+	// camel 3
+	compile group: 'org.apache.camel', name: 'camel-spring-boot-starter', version: '3.0.0-RC3'
+	compile group: 'org.apache.camel', name: 'camel-ftp', version: '3.0.0-RC3'
+	compile group: 'org.apache.camel', name: 'camel-log', version: '3.0.0-RC3'
+	
+	
+	// file process
+	compile('commons-io:commons-io:2.6')
+	
+	// deamon
+	compile files('lib/commons-daemon-1.2.2.jar')
+	
+	// file path process
+	compile group: 'commons-net', name: 'commons-net', version: '3.6'
+			
+}

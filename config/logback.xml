@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+	<property name="LOG_HOME" value="D:/work/repo/FtpService/logs" />
+	<property name="CHARSET" value="UTF-8" />
+	<property name="PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %class{36} - %msg%n" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type
+		ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+			<charset>${CHARSET}</charset>
+		</encoder>
+	</appender>
+  	
+	<!-- 按照每天生成日誌文件 -->
+	<appender name="ROOT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日誌文件輸出的文件名-->
+			<FileNamePattern>${LOG_HOME}/root-%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!--日誌文件保留天數-->
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${PATTERN}</pattern>
+			<charset>${CHARSET}</charset>
+		</encoder>
+		<!--日誌文件最大的大小-->
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+			
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />	
+		<appender-ref ref="ROOT_APPENDER" />
+	</root>
+	        
+	<!--
+    <logger name="org.apache.camel.util.CamelLogger" level="INFO" additivity="true">
+        <appender-ref ref="BUSINESS_APPENDER" />
+    </logger>
+	-->
+	
+
+</configuration>
